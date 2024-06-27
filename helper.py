@@ -4,6 +4,7 @@ import streamlit as st
 import cv2
 from pytube import YouTube
 
+
 import settings
 
 
@@ -162,42 +163,28 @@ def play_webcam(conf, model):
     Raises:
         None
     """
-    # source_webcam = settings.WEBCAM_PATH
-    # is_display_tracker, tracker = display_tracker_options()
-    # if st.sidebar.button('Detect Objects'):
-    #     try:
-    #         vid_cap = cv2.VideoCapture(source_webcam)
-    #         st_frame = st.empty()
-    #         while (vid_cap.isOpened()):
-    #             success, image = vid_cap.read()
-    #             if success:
-    #                 _display_detected_frames(conf,
-    #                                          model,
-    #                                          st_frame,
-    #                                          image,
-    #                                          is_display_tracker,
-    #                                          tracker,
-    #                                          )
-    #             else:
-    #                 vid_cap.release()
-    #                 break
-    #     except Exception as e:
-    #         st.sidebar.error("Error loading video: " + str(e))
-    import cv2
-
-    cap = cv2.VideoCapture(0)
-
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
-        cv2.imshow('Camera Stream', frame)
-        if cv2.waitKey(1) == ord('q'):
-            break
-
-    cap.release()
-    cv2.destroyAllWindows()
-
+    source_webcam = settings.WEBCAM_PATH
+    is_display_tracker, tracker = display_tracker_options()
+    if st.sidebar.button('Detect Objects'):
+        try:
+            vid_cap = cv2.VideoCapture(source_webcam)
+            st_frame = st.empty()
+            while (vid_cap.isOpened()):
+                success, image = vid_cap.read()
+                if success:
+                    _display_detected_frames(conf,
+                                             model,
+                                             st_frame,
+                                             image,
+                                             is_display_tracker,
+                                             tracker,
+                                             )
+                else:
+                    vid_cap.release()
+                    break
+        except Exception as e:
+            st.sidebar.error("Error loading video: " + str(e))
+   
 
 def play_stored_video(conf, model):
     """
