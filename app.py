@@ -8,6 +8,9 @@ import streamlit as st
 # Local Modules
 import settings
 import helper
+import database
+
+df_types = database.load_waste_types()
 
 # Setting page layout
 st.set_page_config(
@@ -94,6 +97,11 @@ if source_radio == settings.IMAGE:
                 # Displaying detected object names
                 st.write("Detected Objects: ", detected_objects)
                 #--------
+
+                # Matching detected objects with waste types
+                matched_types = df_types[df_types['Categories'].isin(detected_objects)]['type'].tolist()
+                st.write("Matched Waste Types: ", matched_types)
+
 
                 try:
                     with st.expander("Detection Results"):
