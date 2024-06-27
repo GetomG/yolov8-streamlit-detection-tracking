@@ -87,8 +87,13 @@ if source_radio == settings.IMAGE:
                 st.image(res_plotted, caption='Detected Image',
                          use_column_width=True)
                 
-                # objects = res[0].objects
-                # st.write("Detected Objects: ", objects)
+                #--------
+                # Extracting detected object names
+                detected_objects = [model.names[int(cls)] for cls in boxes.cls]
+                
+                # Displaying detected object names
+                st.write("Detected Objects: ", detected_objects)
+                #--------
 
                 try:
                     with st.expander("Detection Results"):
