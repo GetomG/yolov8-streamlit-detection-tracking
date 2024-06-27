@@ -38,7 +38,7 @@ MODEL_DIR = ROOT / 'weights'
 # DETECTION_MODEL = MODEL_DIR / 'yolov8n.pt'
 # In case of your custome model comment out the line above and
 # Place your custom model pt file name at the line below 
-DETECTION_MODEL = MODEL_DIR / 'yolov8x.pt'
+DETECTION_MODEL = MODEL_DIR / 'best.pt'
 
 SEGMENTATION_MODEL = MODEL_DIR / 'yolov8n-seg.pt'
 
