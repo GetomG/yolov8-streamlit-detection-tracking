@@ -99,7 +99,7 @@ if source_radio == settings.IMAGE:
                 #--------
 
                 # Matching detected objects with waste types
-                matched_types = df_types[df_types['Categories'].isin(detected_objects)]['type'].tolist()
+                matched_types = df_types[df_types['Categories'].isin(detected_objects)]['Type'].tolist()
                 st.write("Matched Waste Types: ", matched_types)
 
 
