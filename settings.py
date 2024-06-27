@@ -40,6 +40,8 @@ MODEL_DIR = ROOT / 'weights'
 # Place your custom model pt file name at the line below 
 DETECTION_MODEL = MODEL_DIR / 'best.pt'
 
+DETECTION_MODEL_2 = MODEL_DIR / 'yolov8x.pt'
+
 SEGMENTATION_MODEL = MODEL_DIR / 'yolov8n-seg.pt'
 
 # Webcam

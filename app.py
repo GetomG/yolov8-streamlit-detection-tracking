@@ -80,23 +80,55 @@ if source_radio == settings.IMAGE:
                 default_detected_image_path)
             st.image(default_detected_image_path, caption='Detected Image',
                      use_column_width=True)
+        # else:
+        #     if st.sidebar.button('Detect Objects'):
+        #         res = model.predict(uploaded_image,
+        #                             conf=confidence
+        #                             )
+        #         boxes = res[0].boxes
+        #         res_plotted = res[0].plot()[:, :, ::-1]
+        #         st.image(res_plotted, caption='Detected Image',
+        #                  use_column_width=True)
+                
+        #         #--------
+        #         # Extracting detected object names
+        #         detected_objects = [model.names[int(cls)] for cls in boxes.cls]
+                
+        #         # Displaying detected object names
+        #         st.write("Detected Objects: ", detected_objects)
+        #         #--------
+
+        #         # Matching detected objects with waste types
+        #         matched_types = df_types[df_types['Categories'].isin(detected_objects)]['Type'].tolist()
+        #         st.write("Matched Waste Types: ", matched_types)
+
         else:
             if st.sidebar.button('Detect Objects'):
-                res = model.predict(uploaded_image,
-                                    conf=confidence
-                                    )
+                # Attempt detection with the first model
+                res = model.predict(uploaded_image, conf=confidence)
                 boxes = res[0].boxes
-                res_plotted = res[0].plot()[:, :, ::-1]
-                st.image(res_plotted, caption='Detected Image',
-                         use_column_width=True)
-                
-                #--------
-                # Extracting detected object names
                 detected_objects = [model.names[int(cls)] for cls in boxes.cls]
                 
+                # If no objects are detected, switch to the second model
+                if not detected_objects:
+                    st.write("No objects detected with the first model, trying the second model...")
+                    model_path = Path(settings.DETECTION_MODEL_2)
+                    try:
+                        model = helper.load_model(model_path)
+                    except Exception as ex:
+                        st.error(f"Unable to load second model. Check the specified path: {model_path}")
+                        st.error(ex)
+                    
+                    # Attempt detection with the second model
+                    res = model.predict(uploaded_image, conf=confidence)
+                    boxes = res[0].boxes
+                    detected_objects = [model.names[int(cls)] for cls in boxes.cls]
+                
+                res_plotted = res[0].plot()[:, :, ::-1]
+                st.image(res_plotted, caption='Detected Image', use_column_width=True)
+
                 # Displaying detected object names
                 st.write("Detected Objects: ", detected_objects)
-                #--------
 
                 # Matching detected objects with waste types
                 matched_types = df_types[df_types['Categories'].isin(detected_objects)]['Type'].tolist()
